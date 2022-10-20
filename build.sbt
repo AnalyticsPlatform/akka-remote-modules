@@ -10,7 +10,9 @@ lazy val `akka-client` = project
     scalaVersion := scala3Version,
     libraryDependencies ++= Seq(
       "org.scalameta" %% "munit" % "0.7.29" % Test,
-      "com.typesafe.akka" %% "akka-actor" % vAkkaActorClient
+      "com.typesafe.akka" %% "akka-actor" % vAkkaActorClient,
+      "com.typesafe.akka" %% "akka-remote" % vAkkaActorClient,
+      "io.netty" % "netty" % "3.10.6.Final"
     )
   )
 
@@ -28,11 +30,34 @@ lazy val `serverScala2_12` = project
     libraryDependencies ++= Seq(
 //      "org.scalameta" %% "munit" % "0.7.29" % Test,
       "com.typesafe.akka" %% "akka-actor" % vAkkaActorModuleScala2_12,
-      "com.typesafe.akka" %% "akka-remote" % vAkkaActorModuleScala2_12
+      "com.typesafe.akka" %% "akka-remote" % vAkkaActorModuleScala2_12,
+      "io.netty" % "netty" % "3.10.6.Final"
     )
   )
 
 val vAkkaActorModuleScala2_12 = "2.6.18"
+
+///////////////////////////////////////////////////////
+
+///////////////////////////////////////////////////////
+
+lazy val `serverScala3` = project
+  .in(file("module-scala3"))
+  .enablePlugins(JavaAppPackaging)
+  .settings(
+    name := "module-scala3",
+    version := "0.1.0-SNAPSHOT",
+    scalaVersion := scala3Version,
+
+    libraryDependencies ++= Seq(
+      //      "org.scalameta" %% "munit" % "0.7.29" % Test,
+      "com.typesafe.akka" %% "akka-actor" % vAkkaActorModuleScala3,
+      "com.typesafe.akka" %% "akka-remote" % vAkkaActorModuleScala3,
+      "io.netty" % "netty" % "3.10.6.Final"
+    )
+  )
+
+val vAkkaActorModuleScala3 = "2.6.20"
 
 ///////////////////////////////////////////////////////
 
@@ -49,7 +74,8 @@ lazy val `serverScala2_11` = project
     libraryDependencies ++= Seq(
 //      "org.scalameta" %% "munit" % "0.7.29" % Test,
       "com.typesafe.akka" %% "akka-actor" % vAkkaActorModuleScala2_11,
-      "com.typesafe.akka" %% "akka-remote" % vAkkaActorModuleScala2_11
+      "com.typesafe.akka" %% "akka-remote" % vAkkaActorModuleScala2_11,
+      "io.netty" % "netty" % "3.10.6.Final"
     )
   )
 
@@ -60,7 +86,7 @@ val vAkkaActorModuleScala2_11 = "2.5.23"
 lazy val stageAll = taskKey[Unit]("Stage all projects")
 
 val projects_stage = ScopeFilter(inProjects(
-  `akka-client`,`serverScala2_11`,`serverScala2_12`), inConfigurations(Universal))
+  `akka-client`,`serverScala2_11`,`serverScala2_12`, `serverScala3`), inConfigurations(Universal))
 
 stageAll := {
   stage.all(projects_stage).value
