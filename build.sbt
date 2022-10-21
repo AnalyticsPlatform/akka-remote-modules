@@ -12,7 +12,9 @@ lazy val `akka-client` = project
       "org.scalameta" %% "munit" % "0.7.29" % Test,
       "com.typesafe.akka" %% "akka-actor" % vAkkaActorClient,
       "com.typesafe.akka" %% "akka-remote" % vAkkaActorClient,
-      "io.netty" % "netty" % "3.10.6.Final"
+      "io.netty" % "netty" % "3.10.6.Final",
+      "io.circe" %% "circe-parser" % "0.14.1",
+      "io.circe" %% "circe-generic" % "0.14.1"
     )
   )
 
@@ -31,7 +33,9 @@ lazy val `serverScala2_12` = project
 //      "org.scalameta" %% "munit" % "0.7.29" % Test,
       "com.typesafe.akka" %% "akka-actor" % vAkkaActorModuleScala2_12,
       "com.typesafe.akka" %% "akka-remote" % vAkkaActorModuleScala2_12,
-      "io.netty" % "netty" % "3.10.6.Final"
+      "io.netty" % "netty" % "3.10.6.Final",
+      "io.circe" %% "circe-parser" % "0.14.1",
+      "io.circe" %% "circe-generic" % "0.14.1"
     )
   )
 
@@ -53,7 +57,9 @@ lazy val `serverScala3` = project
       //      "org.scalameta" %% "munit" % "0.7.29" % Test,
       "com.typesafe.akka" %% "akka-actor" % vAkkaActorModuleScala3,
       "com.typesafe.akka" %% "akka-remote" % vAkkaActorModuleScala3,
-      "io.netty" % "netty" % "3.10.6.Final"
+      "io.netty" % "netty" % "3.10.6.Final",
+      "io.circe" %% "circe-parser" % "0.14.1",
+      "io.circe" %% "circe-generic" % "0.14.1"
     )
   )
 
@@ -75,7 +81,9 @@ lazy val `serverScala2_11` = project
 //      "org.scalameta" %% "munit" % "0.7.29" % Test,
       "com.typesafe.akka" %% "akka-actor" % vAkkaActorModuleScala2_11,
       "com.typesafe.akka" %% "akka-remote" % vAkkaActorModuleScala2_11,
-      "io.netty" % "netty" % "3.10.6.Final"
+      "io.netty" % "netty" % "3.10.6.Final",
+      "io.circe" %% "circe-parser" % "0.12.0-M3",
+      "io.circe" % "circe-generic_2.11" % "0.12.0-M3"
     )
   )
 
