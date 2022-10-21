@@ -24,6 +24,7 @@ object ClientApp{
     simple2_12 ! shared.Shutdown()
     simple3 ! shared.Shutdown()
 //    simple2_11 ! AkkaMsgTestActorRef("test", "actorref", "on scala 2.11")
+    system.terminate()
 }
 
 
