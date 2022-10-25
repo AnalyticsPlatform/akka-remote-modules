@@ -22,18 +22,6 @@ class CustomCirceSerialisation(system: ExtendedActorSystem ) extends Serializer 
 
   def includeManifest = true
 
-  // The manifest (type hint) that will be provided in the fromBinary method
-  // Use `""` if manifest is not needed.
-  //  def manifest(obj: AnyRef): String =
-  //    obj match
-  //      case _: shared.Shutdown => "Shutdown"
-  //      case _: List[String]     => "List[String]"
-  //      case _: AkkaMsgTest1     => "AkkaMsgTest1"
-  //      case _: AkkaMsgTest2     => "AkkaMsgTest2"
-  //      case _: AkkaMsgTestActorRef     => "AkkaMsgTestActorRef"
-
-
-
   implicit val encodeActorRef: Encoder[ActorRef] = new Encoder[ActorRef] {
     final def apply(theActorRef: ActorRef): Json = Json.obj(
       ("ActorRef", Json.fromString(Serialization.serializedActorPath(theActorRef)))
@@ -42,7 +30,7 @@ class CustomCirceSerialisation(system: ExtendedActorSystem ) extends Serializer 
   implicit val decodeActorRef: Decoder[ActorRef] = new Decoder[ActorRef] {
     final def apply(c: HCursor): Decoder.Result[ActorRef] =
       c.downField("ActorRef").as[String].map(
-        path => ModuleScala2_11Run.backend.asInstanceOf[ExtendedActorSystem].provider.resolveActorRef(path)
+        path => system.provider.resolveActorRef(path)
       )
 
   }

@@ -8,17 +8,23 @@ lazy val `akka-client` = project
     name := "akka-remote-modules-client",
     version := "0.1.0-SNAPSHOT",
     scalaVersion := scala3Version,
-    libraryDependencies ++= Seq(
-      "org.scalameta" %% "munit" % "0.7.29" % Test,
-      "com.typesafe.akka" %% "akka-actor" % vAkkaActorClient,
-      "com.typesafe.akka" %% "akka-remote" % vAkkaActorClient,
-      "io.netty" % "netty" % "3.10.6.Final",
-      "io.circe" %% "circe-parser" % "0.14.1",
-      "io.circe" %% "circe-generic" % "0.14.1"
-    )
+    libraryDependencies ++= {
+      val vAkkaActorClient = "2.6.20"
+      val vScallop = "4.1.0"
+      val vIOCirce = "0.14.1"
+      Seq(
+        "org.scalameta" %% "munit" % "0.7.29" % Test,
+        "com.typesafe.akka" %% "akka-actor" % vAkkaActorClient,
+        "com.typesafe.akka" %% "akka-remote" % vAkkaActorClient,
+        "io.netty" % "netty" % "3.10.6.Final",
+        "io.circe" %% "circe-parser" % vIOCirce,
+        "io.circe" %% "circe-generic" % vIOCirce,
+        "org.rogach" %% "scallop" % vScallop
+      )
+    }
   )
 
-val vAkkaActorClient = "2.6.20"
+
 ///////////////////////////////////////////////////////
 
 lazy val `serverScala2_12` = project
@@ -29,17 +35,23 @@ lazy val `serverScala2_12` = project
     version := "0.1.0-SNAPSHOT",
     scalaVersion := "2.12.15",
 
-    libraryDependencies ++= Seq(
-      //      "org.scalameta" %% "munit" % "0.7.29" % Test,
-      "com.typesafe.akka" %% "akka-actor" % vAkkaActorModuleScala2_12,
-      "com.typesafe.akka" %% "akka-remote" % vAkkaActorModuleScala2_12,
-      "io.netty" % "netty" % "3.10.6.Final",
-      "io.circe" %% "circe-parser" % "0.14.1",
-      "io.circe" %% "circe-generic" % "0.14.1"
-    )
+    libraryDependencies ++= {
+      val vAkkaActorModuleScala2_12 = "2.6.18"
+      val vIOCirce = "0.14.1"
+      val vScallop = "3.4.0"
+      Seq(
+        //      "org.scalameta" %% "munit" % "0.7.29" % Test,
+        "com.typesafe.akka" %% "akka-actor" % vAkkaActorModuleScala2_12,
+        "com.typesafe.akka" %% "akka-remote" % vAkkaActorModuleScala2_12,
+        "io.netty" % "netty" % "3.10.6.Final",
+        "io.circe" %% "circe-parser" % vIOCirce,
+        "io.circe" %% "circe-generic" % vIOCirce,
+        "org.rogach" %% "scallop" % vScallop
+      )
+    }
   )
 
-val vAkkaActorModuleScala2_12 = "2.6.18"
+
 
 ///////////////////////////////////////////////////////
 
@@ -53,17 +65,21 @@ lazy val `serverScala3` = project
     version := "0.1.0-SNAPSHOT",
     scalaVersion := scala3Version,
 
-    libraryDependencies ++= Seq(
-      //      "org.scalameta" %% "munit" % "0.7.29" % Test,
-      "com.typesafe.akka" %% "akka-actor" % vAkkaActorModuleScala3,
-      "com.typesafe.akka" %% "akka-remote" % vAkkaActorModuleScala3,
-      "io.netty" % "netty" % "3.10.6.Final",
-      "io.circe" %% "circe-parser" % "0.14.1",
-      "io.circe" %% "circe-generic" % "0.14.1"
-    )
+    libraryDependencies ++= {
+      val vIOCirce = "0.14.1"
+      val vScallop = "4.1.0"
+      val vAkkaActorModuleScala3 = "2.6.20"
+      Seq(
+        //      "org.scalameta" %% "munit" % "0.7.29" % Test,
+        "com.typesafe.akka" %% "akka-actor" % vAkkaActorModuleScala3,
+        "com.typesafe.akka" %% "akka-remote" % vAkkaActorModuleScala3,
+        "io.netty" % "netty" % "3.10.6.Final",
+        "io.circe" %% "circe-parser" % vIOCirce,
+        "io.circe" %% "circe-generic" % vIOCirce,
+        "org.rogach" %% "scallop" % vScallop
+      )
+    }
   )
-
-val vAkkaActorModuleScala3 = "2.6.20"
 
 ///////////////////////////////////////////////////////
 
@@ -77,17 +93,21 @@ lazy val `serverScala2_11` = project
     version := "0.1.0-SNAPSHOT",
     scalaVersion := "2.11.12",
 
-    libraryDependencies ++= Seq(
-      //      "org.scalameta" %% "munit" % "0.7.29" % Test,
-      "com.typesafe.akka" %% "akka-actor" % vAkkaActorModuleScala2_11,
-      "com.typesafe.akka" %% "akka-remote" % vAkkaActorModuleScala2_11,
-      "io.netty" % "netty" % "3.10.6.Final",
-      "io.circe" %% "circe-parser" % "0.12.0-M3",
-      "io.circe" % "circe-generic_2.11" % "0.12.0-M3"
-    )
+    libraryDependencies ++= {
+      val vAkkaActorModuleScala2_11 = "2.5.23"
+      val vIOCirce = "0.12.0-M3"
+      val vScallop = "3.4.0"
+      Seq(
+        //      "org.scalameta" %% "munit" % "0.7.29" % Test,
+        "com.typesafe.akka" %% "akka-actor" % vAkkaActorModuleScala2_11,
+        "com.typesafe.akka" %% "akka-remote" % vAkkaActorModuleScala2_11,
+        "io.netty" % "netty" % "3.10.6.Final",
+        "io.circe" %% "circe-parser" % vIOCirce,
+        "io.circe" %% "circe-generic" % vIOCirce,
+        "org.rogach" %% "scallop" % vScallop
+      )
+    }
   )
-
-val vAkkaActorModuleScala2_11 = "2.5.23"
 
 ///////////////////////////////////////////////////////
 
