@@ -172,7 +172,7 @@ def runCmd(cmdWindows: String, cmdUnix: String, path: File)
   val isWindows: Boolean = System.getProperty("os.name").toLowerCase().contains("win")
   try {
     if (isWindows) {
-      Process(cmdWindows, path) !!
+      Process("cmd /c " + cmdWindows, path) !!
     } else {
       Process("bash -c " + cmdUnix, path) !!
     }

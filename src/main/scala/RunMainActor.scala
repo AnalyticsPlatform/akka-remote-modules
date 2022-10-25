@@ -1,5 +1,5 @@
 import TestMsgs.{AkkaMsgTest1, AkkaMsgTestActorRef}
-import akka.actor.{Actor, ActorSelection, ActorSystem, Props}
+import akka.actor.{Actor, ActorSelection, ActorSystem, Props, ActorRef}
 
 import scala.sys.exit
 
@@ -16,18 +16,32 @@ class RunMainActor() extends Actor:
 //    self ! StartWork()
     super.preStart()
 
-  var simple2_11: ActorSelection = null
-  var simple2_12: ActorSelection = null
-  var simple3: ActorSelection = null
+  var simple2_11: ActorRef = null
+  var simple2_12: ActorRef = null
+  var simple3: ActorRef = null
+
+  def initProxyModuleActor(actorRemoteName: String, actorSystemName: String, winScript: String,
+                           unixScript: String, proxyActorName: String): ActorRef = {
+    var port = PortOperations.isPortAvailable(0)
+    val pathScala2_11 = s"akka.tcp://$actorSystemName@0.0.0.0:$port/user/$actorRemoteName"
+    context.actorOf(Props(new ProxyModule(pathScala2_11,
+      Some(s"$winScript --port $port"), Some(s"$unixScript --port $port"), self
+    )), proxyActorName)
+  }
 
   override def receive: Receive = {
     case StartWork() =>
-      val pathScala2_11 = "akka.tcp://backendScalaTwoEleven@0.0.0.0:25510/user/simple-scala-2-11"
-      val pathScala2_12 = "akka.tcp://backendScalaTwotwelf@0.0.0.0:25520/user/simple-scala-2-12"
-      val pathScala3 = "akka.tcp://backendScalaThree@0.0.0.0:25523/user/simpleScalaThree"
-      simple2_11 = context.system.actorSelection(pathScala2_11)
-      simple2_12 = context.system.actorSelection(pathScala2_12)
-      simple3 = context.system.actorSelection(pathScala3)
+      simple2_11 = initProxyModuleActor("simple-scala-2-11", "backendScalaTwoEleven",
+        "module-scala2_11.bat", "module-scala2_11", "simple2_11Proxy"
+      )
+      //actor remote path is s"akka.tcp://backendScalaTwotwelf@0.0.0.0:$port/user/simple-scala-2-12"
+      simple2_12 = initProxyModuleActor("simple-scala-2-12", "backendScalaTwotwelf",
+        "module-scala2_12.bat", "module-scala2_12", "simple2_12Proxy"
+      )
+      simple3 = initProxyModuleActor("simpleScalaThree", "backendScalaThree",
+        "module-scala3.bat", "module-scala3", "simple3Proxy"
+      )
+
       self ! StartTest1()
     case StartTest1() =>
       println(s"Started Test1: ")
