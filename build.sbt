@@ -5,6 +5,7 @@ lazy val `akka-client` = project
   .in(file("."))
   .enablePlugins(JavaAppPackaging)
   .settings(
+    run / fork := true,
     name := "akka-remote-modules-client",
     version := "0.1.0-SNAPSHOT",
     scalaVersion := scala3Version,
@@ -31,6 +32,7 @@ lazy val `serverScala2_12` = project
   .in(file("module-scala2_12"))
   .enablePlugins(JavaAppPackaging)
   .settings(
+    run / fork := true,
     name := "module-scala2_12",
     version := "0.1.0-SNAPSHOT",
     scalaVersion := "2.12.15",
@@ -61,6 +63,7 @@ lazy val `serverScala3` = project
   .in(file("module-scala3"))
   .enablePlugins(JavaAppPackaging)
   .settings(
+    run / fork := true,
     name := "module-scala3",
     version := "0.1.0-SNAPSHOT",
     scalaVersion := scala3Version,
@@ -89,6 +92,7 @@ lazy val `serverScala2_11` = project
   .in(file("module-scala2_11"))
   .enablePlugins(JavaAppPackaging)
   .settings(
+    run / fork := true,
     name := "module-scala2_11",
     version := "0.1.0-SNAPSHOT",
     scalaVersion := "2.11.12",
@@ -163,7 +167,8 @@ def copyStageModule(targetStageDir: File, sourceStageDir: File)(implicit log: Ma
 runClientApp := {
   implicit val log = streams.value.log
   val targetStageDir = (`akka-client` / baseDirectory).value / "target" / "universal" / "stage" / "bin"
-  runCmd("akka-remote-modules-client.bat", "akka-remote-modules-client", targetStageDir )
+  val res = runCmdNoWait(Some("akka-remote-modules-client.bat"), Some("akka-remote-modules-client"), targetStageDir )
+  res.exitValue()
 }
 
 def runCmd(cmdWindows: String, cmdUnix: String, path: File)
@@ -185,6 +190,27 @@ def runCmd(cmdWindows: String, cmdUnix: String, path: File)
       throw ex
   }
 }
+
+  def runCmdNoWait(cmdWindows: Option[String], cmdUnix: Option[String], path: File): scala.sys.process.Process = {
+    import scala.sys.process._
+    val isWindows: Boolean = System.getProperty("os.name").toLowerCase().contains("win")
+    try {
+      if (isWindows && cmdWindows.nonEmpty) {
+        Process("cmd /c " + cmdWindows.get, path).run()
+      } else {
+        if (cmdUnix.nonEmpty) 
+          Process("bash -c " + cmdUnix.get, path).run()
+        else throw new Exception("No cmd is provided")
+      }
+    } catch {
+      case ex: Throwable =>
+        println(s"Error: Could not execute command ${
+          if (isWindows && cmdWindows.nonEmpty) cmdWindows.get
+          else if (cmdUnix.nonEmpty) cmdUnix.get else ""
+        } in path ${path.getAbsolutePath} directory\n [exception]: " + ex.getMessage)
+        throw ex
+    }
+  }
 
 
 
